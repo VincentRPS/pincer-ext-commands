@@ -15,16 +15,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from setuptools import setup
-
-requirements = []
-with open('requirements.txt') as f:
-  requirements = f.read().splitlines()
-
-setup(
-    name="pincer-ext-commands",
-    version="2022.1",
-    packages=["pincer.ext.commands"],
-    python_requires=">=3.8.0",
-    install_requires=requirements
-)
