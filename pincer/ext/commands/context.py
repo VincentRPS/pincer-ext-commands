@@ -15,16 +15,28 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from setuptools import setup
+from typing import Optional, Union
 
-requirements = []
-with open("requirements.txt") as f:
-    requirements = f.read().splitlines()
+from pincer.objects import GuildMember
+from pincer.objects import Interaction as inter
+from pincer.objects import MessageContext, User
+from pincer.utils import Snowflake
 
-setup(
-    name="pincer-ext-commands",
-    version="2022.1",
-    packages=["pincer.ext.commands"],
-    python_requires=">=3.8.0",
-    install_requires=requirements,
-)
+from .core import Bot
+
+
+class Interaction(MessageContext):
+    def __init__(
+        self,
+        _client: Bot,
+        author: Union[GuildMember, User],
+        interaction: inter,
+        guild_id: Optional[Snowflake] = None,
+        channel_id: Optional[Snowflake] = None,
+    ):
+
+        super().__init__(_client, author, interaction, guild_id, channel_id)
+
+
+class Context:
+    ...

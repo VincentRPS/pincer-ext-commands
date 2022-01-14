@@ -15,9 +15,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from typing import List
+from typing import Coroutine, List
 
-import pincer
+from pincer.commands import command as slash_cmd
+from pincer.commands import message_command as msg_cmd
+from pincer.commands import user_command as user_cmd
+from pincer.objects import Message
+
 from pincer import Client
 
 
@@ -57,4 +61,50 @@ class Bot(Client):
         super().__init__(token=token, intents=intents)
 
     async def command(self):
-        ...
+        return Command
+
+    # these are mostly return methods for app commands
+
+    def slash_command(self):
+        return slash_cmd
+
+    def user_command(self):
+        return user_cmd
+
+    def message_command(self):
+        return msg_cmd
+
+
+class Command:
+    def __init__(self, prefix, bot: Bot):
+        self.bot = bot
+        self.prefix = prefix
+
+    # pretty sure this doesn't work, gonna have to be redone
+    def CmdProcess(
+        self,
+        cmd = None,
+        sent_msg=None,
+        files=None,
+        tts: bool = False,
+        embeds=None,
+        views=None,
+        delete_after=None,
+    ):
+        if cmd is None:
+            self.cmd = Coroutine
+        else:
+            self.cmd = cmd
+
+        def SubCmdProcess(msg: Message):
+            if msg.content.startswith(self.prefix + self.cmd): # type: ignore
+                return Message(
+                    sent_msg,
+                    files,
+                    tts,
+                    embeds,
+                    components=views,
+                    delete_after=delete_after,
+                )
+            else:
+                return
