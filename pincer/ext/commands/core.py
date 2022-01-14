@@ -108,3 +108,4 @@ class Command:
                 )
             else:
                 return
+        return SubCmdProcess
