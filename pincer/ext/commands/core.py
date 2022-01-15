@@ -83,7 +83,7 @@ class Command:
     # pretty sure this doesn't work, gonna have to be redone
     def CmdProcess(
         self,
-        cmd = None,
+        cmd=None,
         sent_msg=None,
         files=None,
         tts: bool = False,
@@ -91,13 +91,13 @@ class Command:
         views=None,
         delete_after=None,
     ):
-        if cmd is None:
+        if not cmd:
             self.cmd = Coroutine
         else:
             self.cmd = cmd
 
         def SubCmdProcess(msg: Message):
-            if msg.content.startswith(self.prefix + self.cmd): # type: ignore
+            if msg.content.startswith(self.prefix + self.cmd):  # type: ignore
                 return Message(
                     sent_msg,
                     files,
@@ -108,4 +108,5 @@ class Command:
                 )
             else:
                 return
+
         return SubCmdProcess
